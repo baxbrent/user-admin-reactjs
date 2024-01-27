@@ -1,59 +1,93 @@
 // CreateUserForm.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-const CreateUserForm = ({ onCreateUser }) => {
+const CreateUserForm = ({ onCreateUser, selectedUser, onUpdateUser }) => {
   const [formData, setFormData] = useState({
+    id: "",
     first_name: "",
     last_name: "",
     email: "",
   });
 
+  useEffect(() => {
+    if (selectedUser) {
+      setFormData(selectedUser);
+    } else {
+      // Reset form data when selectedUser is null
+      setFormData({
+        id: "",
+        first_name: "",
+        last_name: "",
+        email: "",
+      });
+    }
+  }, [selectedUser]);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSave = () => {
+    if (selectedUser) {
+      onUpdateUser(formData);
+    } else {
+      onCreateUser(formData);
+    }
+  };
+
+  const handleClear = () => {
+    setFormData({
+      id: "",
+      first_name: "",
+      last_name: "",
+      email: "",
+    });
+  };
+
+  const handleCreateUser = () => {
+    if (!formData.first_name || !formData.last_name || !formData.email) {
+      alert(
+        "Please fill in all fields (First Name, Last Name, Email) before creating user."
+      );
+      return;
+    }
+
     onCreateUser(formData);
-    setFormData({ first_name: "", last_name: "", email: "" });
+    setFormData({
+      id: "",
+      first_name: "",
+      last_name: "",
+      email: "",
+    });
   };
 
   return (
     <div>
       <h2>Create User</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>First Name:</label>
-          <input
-            type="text"
-            name="first_name"
-            value={formData.first_name}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Last Name:</label>
-          <input
-            type="text"
-            name="last_name"
-            value={formData.last_name}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <button type="submit">Create User</button>
-      </form>
+      <input
+        type="text"
+        name="first_name"
+        value={formData.first_name}
+        onChange={handleChange}
+        placeholder="First Name"
+      />
+      <input
+        type="text"
+        name="last_name"
+        value={formData.last_name}
+        onChange={handleChange}
+        placeholder="Last Name"
+      />
+      <input
+        type="email"
+        name="email"
+        value={formData.email}
+        onChange={handleChange}
+        placeholder="Email"
+      />
+      <button onClick={handleSave}>Save</button>
+      <button onClick={handleClear}>Clear</button>
+      <button onClick={handleCreateUser}>Create User</button>
     </div>
   );
 };
