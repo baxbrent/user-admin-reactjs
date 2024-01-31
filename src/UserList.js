@@ -11,16 +11,20 @@ const UserList = ({ users, onDeleteUser, onSelectUser }) => {
       <h2>User List</h2>
       <ul>
         {users.map((user) => (
-          <li key={user.id}>
+          <div key={user.id}>
+            {" "}
+            {/* Wrap elements in a parent div */}
             <input
               type="radio"
               name="selectedUser"
               value={user.id}
               onChange={() => handleUserSelect(user)}
             />
-            {user.first_name} {user.last_name} - {user.email}
+            <label>
+              {user.first_name} {user.last_name} - {user.email}
+            </label>
             <button onClick={() => onDeleteUser(user.id)}>Delete</button>
-          </li>
+          </div>
         ))}
       </ul>
     </div>
