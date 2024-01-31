@@ -1,13 +1,14 @@
-// App.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import CreateUserForm from "./CreateUserForm";
 import UserList from "./UserList";
+import "./App.css"; // Import CSS file for styling
 
 const App = () => {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [showUsers, setShowUsers] = useState(true); // State to control showing users
 
   useEffect(() => {
     const getUsers = async () => {
@@ -19,8 +20,8 @@ const App = () => {
       }
     };
 
-    getUsers(); // Call getUsers function to fetch users when the component mounts
-  }, []); // Empty dependency array ensures the effect runs only once, on component mount
+    getUsers();
+  }, []);
 
   const createUser = async (userData) => {
     try {
@@ -53,31 +54,53 @@ const App = () => {
         user.id === updatedUserData.id ? updatedUserData : user
       );
       setUsers(updatedUsers);
-      setSelectedUser(null); // Clear selected user after update
+      setSelectedUser(null);
     } catch (error) {
       setError(error.message);
     }
   };
 
   return (
-    <div>
-      <h1>User Management System</h1>
-      {error ? (
-        <div>Error: {error}</div>
-      ) : (
-        <>
-          <CreateUserForm
-            onCreateUser={createUser}
-            selectedUser={selectedUser}
-            onUpdateUser={updateUser}
-          />
-          <UserList
-            users={users}
-            onDeleteUser={deleteUser}
-            onSelectUser={setSelectedUser}
-          />
-        </>
-      )}
+    <div className="app">
+      {/* Left Sidebar/Navbar */}
+      <aside className="sidebar">
+        <nav className="navbar">
+          <ul>
+            <li>
+              <button onClick={() => setShowUsers(true)}>Users</button>
+            </li>
+            {/* Add more navbar options here if needed */}
+          </ul>
+        </nav>
+      </aside>
+
+      {/* Main Content Section */}
+      <main className="main">
+        {/* Header */}
+        <header className="header">
+          <h1 className="header-title">User Management System</h1>
+        </header>
+
+        <div className="main-container">
+          {/* Conditional rendering based on showUsers state */}
+          {showUsers ? (
+            <>
+              <CreateUserForm
+                onCreateUser={createUser}
+                selectedUser={selectedUser}
+                onUpdateUser={updateUser}
+              />
+              <UserList
+                users={users}
+                onDeleteUser={deleteUser}
+                onSelectUser={setSelectedUser}
+              />
+            </>
+          ) : (
+            <div>Other content goes here</div>
+          )}
+        </div>
+      </main>
     </div>
   );
 };
