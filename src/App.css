@@ -3,52 +3,36 @@
 /* Overall layout styles */
 .app {
   display: flex;
-  height: 100vh; /* Full height */
+}
+
+/* Logo section styles */
+.logo {
+  margin-right: 20px; /* Adjust as needed */
+}
+
+.logo img {
+  height: 50px; /* Adjust the logo height */
 }
 
 /* Sidebar/Navbar styles */
 .sidebar {
   flex: 0 0 200px; /* Fixed width */
   background-color: #333; /* Sidebar background color */
+  color: white;
 }
 
-.navbar {
+/* Header styles */
+.header {
+  background-color: #282c34; /* Header background color */
+  color: white; /* Header text color */
   padding: 20px;
-}
-
-.navbar ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.navbar li {
-  margin-bottom: 10px;
-}
-
-.navbar button {
-  background-color: transparent;
-  border: none;
-  color: #fff;
-  font-size: 16px;
-  cursor: pointer;
-  padding: 10px;
-  width: 100%;
-  text-align: left;
 }
 
 /* Main content styles */
 .main {
   flex: 1; /* Take remaining space */
-}
-
-.header {
-  background-color: #282c34; /* Header background color */
-  color: #fff; /* Header text color */
-  padding: 20px;
-}
-
-.header-title {
-  margin: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .main-container {

@@ -2,6 +2,12 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import CreateUserForm from "./CreateUserForm";
 import UserList from "./UserList";
+import Drawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
 import "./App.css"; // Import CSS file for styling
 
 const App = () => {
@@ -9,6 +15,7 @@ const App = () => {
   const [error, setError] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
   const [showUsers, setShowUsers] = useState(true); // State to control showing users
+  const [openDrawer, setOpenDrawer] = useState(false); // State to control the drawer
 
   useEffect(() => {
     const getUsers = async () => {
@@ -62,26 +69,22 @@ const App = () => {
 
   return (
     <div className="app">
-      {/* Left Sidebar/Navbar */}
-      <aside className="sidebar">
-        <nav className="navbar">
-          <ul>
-            <li>
-              <button onClick={() => setShowUsers(true)}>Users</button>
-            </li>
-            {/* Add more navbar options here if needed */}
-          </ul>
-        </nav>
-      </aside>
+      {/* Collapsible Left Sidebar */}
+      <IconButton onClick={() => setOpenDrawer(true)}>
+        <MenuIcon />
+      </IconButton>
+      <Drawer open={openDrawer} onClose={() => setOpenDrawer(false)}>
+        <List>
+          <ListItem button onClick={() => setShowUsers(true)}>
+            <ListItemText primary="Users" />
+          </ListItem>
+          {/* Add more list items for other options */}
+        </List>
+      </Drawer>
 
-      {/* Main Content Section */}
       <main className="main">
-        {/* Header */}
-        <header className="header">
-          <h1 className="header-title">User Management System</h1>
-        </header>
-
         <div className="main-container">
+          <h2>User Management System</h2>
           {/* Conditional rendering based on showUsers state */}
           {showUsers ? (
             <>
